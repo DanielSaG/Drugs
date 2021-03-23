@@ -30,7 +30,7 @@ public class SwaggerConfig {
     public Docket apiDocket() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.danielsg.drugs.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.danielsg.drugs"))
                 .paths(PathSelectors.any())
                 .build()
                 .tags(new Tag("Drugs API","All drug's available operations"))
@@ -40,7 +40,7 @@ public class SwaggerConfig {
     private ApiInfo getApiInfo() {
         return new ApiInfo(
                 "Drugs API",
-                "Provide the inventory of all the drugs",
+                "Medicamentos con los que ha trabajado la farmacia",
                 "1.0",
                 "http://DSG93.net/terms",
                 new Contact("DanielSG", "https://DSG93.net", "danielsg393@gmail.com"),
