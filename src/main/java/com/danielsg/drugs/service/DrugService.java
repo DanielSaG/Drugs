@@ -7,7 +7,6 @@ package com.danielsg.drugs.service;
 
 import com.danielsg.drugs.dto.DrugRequest;
 import com.danielsg.drugs.dto.DrugResponse;
-import java.net.URI;
 import java.util.List;
 
 /**

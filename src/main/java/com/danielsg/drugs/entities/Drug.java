@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -37,14 +36,9 @@ public class Drug implements Serializable{
     /** Tipo de medicamento */
     public static enum DrugType{ANALGESICO,ANTIACIDO,ANTIALERGICO,ANTIDIARREICO,LAXANTE,
                         ANTIINFECCIOSO, ANTIINFLAMATORIO,ANTIPIREPTICO,ANTITUSIVO,
-                        MUCOLITICO, ANTIULCEROSO;
-    public static String enumToString(){
-        return Arrays.stream(DrugType.values())
-                .map(t->t.toString())
-                .collect(Collectors.joining(","));
-    }};
-    public static enum PharmForm{TABLET,CAPSULE,OINTMENT,PASTE,MOISTURIZER,SOLUTION,
-                        INJECTION,SYRUP,OXIGEN,LOTION,SPRAY};
+                        MUCOLITICO, ANTIULCEROSO};
+    public static enum PharmForm{PASTILLA,CAPSULA,POMADA,PASTA,CREMA,SOLUCION,
+                        ENYECCION,JARABE,OXIGENO,LOCION,AEROSOL};
     
     private static final long serialVersionUID=1L;
     
@@ -55,20 +49,17 @@ public class Drug implements Serializable{
     private String name;
     private String brand;
     private String lab;
-    @Enumerated(value = EnumType.STRING)
-    private DrugType type;
+    private String type;
     private String constituent;
     @Column(name="buy_individual_price")
     private float buyIndividualPrice;
     @Column(name="sell_individual_price")
     private float sellIndividualPrice;
-    private int quantity;
     private boolean patent;
     private String description;
     @Temporal(TemporalType.DATE)
     @Column(name="expire_date")
     private Date expireDate;
-    private int location;
     @Temporal(TemporalType.DATE)
     @Column(name="buy_date")
     private Date buyDate;
@@ -97,16 +88,12 @@ public class Drug implements Serializable{
                 .append(buyIndividualPrice)
                 .append("sellIndividualPrice: $")
                 .append(sellIndividualPrice)
-                .append("quantity: ")
-                .append(quantity)
                 .append("patent: ")
                 .append(patent)
                 .append("description: ")
                 .append(description.substring(0,15))
                 .append("expireDate: ")
                 .append(expireDate)
-                .append("location: ")
-                .append(location)
                 .append("buyDate: ")
                 .append(buyDate)
                 .append("pharmaceuticalForm: ")
@@ -157,6 +144,12 @@ public class Drug implements Serializable{
     }
     public void setConstituent(String constituent){
         this.constituent=constituent.toLowerCase();
+    }
+    
+    public void setType(String type)throws IllegalArgumentException{
+        type=type.replaceAll("\\s","");
+        Arrays.stream(type.split(",")).map((s)->DrugType.valueOf(s));
+        this.type=type;
     }
     
     
